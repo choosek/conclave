@@ -29,10 +29,10 @@ import {
   HOOK_ACK,
   pick,
   triggerMarketAbi,
-} from "../src/server/chain";
-import { decodeRevert } from "../src/server/decode";
-import { fail, queryParam, send } from "../src/server/http";
-import type { SimulateResponse, TransferInfo } from "../src/shared/types";
+} from "../src/server/chain.js";
+import { decodeRevert } from "../src/server/decode.js";
+import { fail, queryParam, send } from "../src/server/http.js";
+import type { SimulateResponse, TransferInfo } from "../src/shared/types.js";
 
 const ZERO = "0x0000000000000000000000000000000000000000";
 /** Any address; `post_result` is permissionless, so the caller does not matter. */

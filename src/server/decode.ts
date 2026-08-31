@@ -24,9 +24,9 @@ import {
   triggerMarketAbi,
 } from "@nillion/blacklight-l1-sdk";
 import { type Abi, decodeErrorResult } from "viem";
-import { describeCondition } from "../core/condition";
-import type { DecodedCondition } from "../shared/types";
-import { assetName, formatPriceDisplay } from "./chain";
+import { describeCondition } from "../core/condition.js";
+import type { DecodedCondition } from "../shared/types.js";
+import { assetName, formatPriceDisplay } from "./chain.js";
 
 /** The inputs {@link decodeCondition} needs from a covenant's meta and post log. */
 export interface ConditionSource {

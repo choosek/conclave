@@ -16,7 +16,7 @@ import {
 } from "@nillion/blacklight-l1-sdk";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { PublicClient } from "viem";
-import { covenantState } from "../src/core/covenant";
+import { covenantState } from "../src/core/covenant.js";
 import {
   addresses,
   client,
@@ -24,16 +24,16 @@ import {
   marketLogs,
   pick,
   triggerMarketAbi,
-} from "../src/server/chain";
-import { decodeCondition } from "../src/server/decode";
-import { fail, queryParam, send } from "../src/server/http";
+} from "../src/server/chain.js";
+import { decodeCondition } from "../src/server/decode.js";
+import { fail, queryParam, send } from "../src/server/http.js";
 import type {
   CommitteeSlot,
   HookInfo,
   RevealInfo,
   TimelineEntry,
   TriggerDetail,
-} from "../src/shared/types";
+} from "../src/shared/types.js";
 
 const ZERO = "0x0000000000000000000000000000000000000000";
 

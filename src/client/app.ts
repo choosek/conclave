@@ -20,8 +20,8 @@ import {
   modeLabel,
   relativeTime,
   truncateAddress,
-} from "../core/format";
-import { quorumModel } from "../core/quorum";
+} from "../core/format.js";
+import { quorumModel } from "../core/quorum.js";
 import type {
   ConfigResponse,
   Covenant,
@@ -33,7 +33,7 @@ import type {
   SimulateResponse,
   TimelineEntry,
   TriggerDetail,
-} from "../shared/types";
+} from "../shared/types.js";
 
 /* ------------------------------------------------------------------ */
 /* Wallet types (EIP-1193 provider, EIP-6963 discovery)               */

@@ -9,7 +9,7 @@
  * computed once on the server and tested here against every ordering.
  */
 
-import type { CovenantState } from "../shared/types";
+import type { CovenantState } from "../shared/types.js";
 
 /** The on-chain facts the state is derived from. `nowUnix` must be chain time
  *  (the latest block's timestamp), because expiry is a comparison the contract

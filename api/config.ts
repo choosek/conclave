@@ -24,13 +24,13 @@ import {
   client,
   formatNilDisplay,
   protocolConfigAbi,
-} from "../src/server/chain";
-import { send } from "../src/server/http";
+} from "../src/server/chain.js";
+import { send } from "../src/server/http.js";
 import type {
   ConfigResponse,
   FleetInfo,
   ProtocolParams,
-} from "../src/shared/types";
+} from "../src/shared/types.js";
 
 /** Read one `ProtocolConfig` getter, returning `null` rather than throwing. */
 async function readParam(

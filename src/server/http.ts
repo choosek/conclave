@@ -9,7 +9,7 @@
  */
 
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import type { ErrorResponse } from "../shared/types";
+import type { ErrorResponse } from "../shared/types.js";
 
 /** Serialize `body` as JSON with `bigint` rendered as a decimal string. */
 export function send(res: VercelResponse, body: unknown, status = 200): void {

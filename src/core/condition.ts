@@ -9,7 +9,7 @@
  * a chain or the SDK.
  */
 
-import type { DecodedCondition } from "../shared/types";
+import type { DecodedCondition } from "../shared/types.js";
 
 /** Comparator codes as they appear in a decoded condition record. */
 export const COMPARATOR_NONE = 0;

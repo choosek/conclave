@@ -27,9 +27,9 @@ import {
   client,
   pick,
   triggerMarketAbi,
-} from "../src/server/chain";
-import { fail, send } from "../src/server/http";
-import type { KeeperAction, KeeperTxResponse } from "../src/shared/types";
+} from "../src/server/chain.js";
+import { fail, send } from "../src/server/http.js";
+import type { KeeperAction, KeeperTxResponse } from "../src/shared/types.js";
 
 const SIM_FROM = "0x000000000000000000000000000000000000dEaD" as const;
 const ACTIONS: KeeperAction[] = ["reveal", "retry", "settle"];
