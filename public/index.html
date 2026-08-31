@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Conclave — MPC threshold-release monitor</title>
+<meta name="description" content="A monitor for MPC-based threshold-release schemes that tracks committee quorum, observes reconstruction, and previews settlement. Currently watching Nillion Blacklight L1 on Sepolia." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/conclave.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <div class="brand" id="brand" title="Conclave — back to the feed">
+      <span class="wm">CONCLAVE</span>
+      <span class="tl">threshold-release monitor</span>
+    </div>
+    <div class="nav-r">
+      <span class="pill" id="live-pill"><span class="dot" id="live-dot"></span><span id="live-txt">connecting…</span></span>
+      <span class="net">Sepolia</span>
+      <button class="btn ink sm" id="connect-btn">Connect wallet</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <!-- ===================== FEED VIEW ===================== -->
+  <section id="view-feed">
+    <div class="intro">
+      <span class="eyebrow">MPC threshold-release · live on Sepolia</span>
+      <h1>Watch a release assemble, and see what it will do <span class="hl">before it opens</span>.</h1>
+      <p class="lede">A threshold-release scheme splits a payload into k-of-m shares, encrypts each to a committee node, and names a release condition. Nodes evaluate the condition off-chain and publish shares; the k-th share makes the payload publicly reconstructable, and it settles a block or so later. Conclave is the surface for that lifecycle — it tracks the quorum, marks the instant of reconstruction, and previews the settlement before it runs. The one network it currently supports is <b>Nillion Blacklight L1</b>, where a release is called a <em>covenant</em>; the model generalises to any threshold-release scheme.</p>
+    </div>
+
+    <!-- what it does, in three steps -->
+    <div class="how">
+      <div class="how-step">
+        <span class="n">1</span>
+        <h3>Track the quorum</h3>
+        <p>Every release on the network, its condition decoded, and its committee assembling toward k&#8209;of&#8209;m — including how many slots one operator holds.</p>
+        <span class="st-chip">sealed &rarr; collecting</span>
+      </div>
+      <div class="how-step">
+        <span class="n">2</span>
+        <h3>Observe reconstruction</h3>
+        <p>The k&#8209;th share makes the payload reconstructable. Conclave marks that instant — the moment the secret goes public — and measures the gap before it executes.</p>
+        <span class="st-chip">reconstructable</span>
+      </div>
+      <div class="how-step">
+        <span class="n">3</span>
+        <h3>Preview the settlement</h3>
+        <p>Inside that gap, reconstruct locally and dry-run the reveal: whether it settles or reverts, whether the hook acknowledges, what moves, and how long it has already been exposed.</p>
+        <span class="st-chip">before it opens</span>
+      </div>
+    </div>
+
+    <div class="how-why">
+      Secrecy below <b>k</b> is cryptographic; release at the k&#8209;th share is economic and operational, and the plaintext is public at least a block before it settles. Conclave treats that disclosure window as a measured quantity rather than a footnote — an instrument for the properties a threshold-release actually has to be judged on: <b>feed correctness</b>, the <b>k-of-m collusion surface</b>, <b>liveness</b>, and the <b>share-to-settlement gap</b>.
+    </div>
+
+    <!-- deployment strip: filled by the client -->
+    <div class="deploy" id="deploy">
+      <div class="deploy-h" id="deploy-h">
+        <span class="chev">›</span>
+        <span class="lbl">Deployment</span>
+        <span class="verdict" id="deploy-verdict">reading C0…</span>
+      </div>
+      <div class="deploy-b" id="deploy-b"></div>
+    </div>
+
+    <div class="feed-top">
+      <div class="sec-h" style="margin-bottom:0;">Releases</div>
+      <span class="feed-live" id="feed-live"><span class="dot live"></span> live · <span id="feed-updated">updating…</span></span>
+      <span class="count" id="feed-count"></span>
+    </div>
+    <div id="feed-mount"></div>
+  </section>
+
+  <!-- ===================== DETAIL VIEW ===================== -->
+  <section id="view-detail" style="display:none;">
+    <div class="back" id="back">‹ back to feed</div>
+    <div id="detail-mount"></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-in">
+    <span class="fb">CONCLAVE</span>
+    <span class="tl mono" style="color:var(--ink3);font-size:11px;">MPC threshold-release monitor</span>
+    <p class="disc">
+      Conclave is a read-only monitor for MPC-based threshold-release schemes. It reads live chain state through the release network's own SDK — for the currently supported network, Nillion Blacklight L1 on Sepolia, that is <span class="mono">@nillion/blacklight-l1-sdk</span>; every contract interface is imported, never transcribed. Reveal previews reconstruct locally and simulate the real settlement path — no release is opened unless you choose a keeper action and sign it with your own wallet. Not affiliated with Nillion. Nothing here is financial advice.
+    </p>
+  </div>
+</footer>
+
+<!-- ===================== WALLET PICKER ===================== -->
+<div class="modal-bg" id="wallet-modal">
+  <div class="modal">
+    <div class="modal-h"><span>Connect a wallet</span><span class="x" id="wallet-close">✕</span></div>
+    <div id="wallet-list"></div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
