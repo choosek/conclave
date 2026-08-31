@@ -97,14 +97,18 @@ Or import the repository in the Vercel dashboard. `vercel.json` is read automati
 
 > This project pins `"framework": null` in `vercel.json` and depends on no web framework, so Vercel serves it as a static site with serverless functions rather than auto-detecting a framework preset. Keep it that way: if a dependency ever pulls a framework (for example, `vite`) into `package.json`, Vercel may misdetect the project and try to run that framework's dev/build command instead.
 
-Reconstruction — used by `api/simulate.ts` and the `reveal` keeper action — runs the SDK's Node-target WebAssembly core. The SDK imports it with a static `import`, which Vercel's file tracer includes automatically, and it is isolated to those two paths, so the feed, detail, config, and timeline views are unaffected regardless. In the unlikely event a deployment's tracer misses the `.wasm` asset, name it explicitly in `vercel.json`:
+The SDK binds its Node-target WebAssembly core **at import time** (`crypto.js` instantiates the module on load), so every `/api` function that touches the SDK — which is all of them — needs the `.wasm` binary in its serverless bundle. The Node loader reads it as `` `${__dirname}/cryptomata_core_bg.wasm` ``, a template-literal path Vercel's file tracer does not statically resolve, so the binary is **not** traced automatically and must be named explicitly. `vercel.json` already does this for every function:
 
 ```json
 "functions": {
-  "api/simulate.ts": { "includeFiles": "node_modules/@nillion/blacklight-l1-sdk/dist/wasm/**" },
-  "api/keeper-tx.ts": { "includeFiles": "node_modules/@nillion/blacklight-l1-sdk/dist/wasm/**" }
+  "api/*.ts": {
+    "maxDuration": 30,
+    "includeFiles": "node_modules/@nillion/blacklight-l1-sdk/dist/wasm/**"
+  }
 }
 ```
+
+Without it, functions deploy but throw `ENOENT` on the missing `.wasm` at cold start and return an HTML 500 — which surfaces in the client as a `JSON.parse` error on the first `/api` call. It works locally regardless, because the file is present in `node_modules` on disk.
 
 ## Configuration
 
