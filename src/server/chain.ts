@@ -22,10 +22,12 @@ import {
 } from "@nillion/blacklight-l1-sdk";
 import {
   type AbiEvent,
+  type Chain,
   createPublicClient,
   formatEther,
   http,
   type PublicClient,
+  type Transport,
 } from "viem";
 import { sepolia } from "viem/chains";
 
@@ -58,11 +60,12 @@ const RPC_URL =
 export const SCAN_BLOCKS = BigInt(process.env.SCAN_BLOCKS ?? "5000");
 const SCAN_BLOCKS_FALLBACK = 1800n;
 
-let cachedClient: PublicClient | null = null;
+let cachedClient: PublicClient<Transport, Chain> | null = null;
 
 /** The shared viem public client, created lazily and reused across warm
- *  invocations. */
-export function client(): PublicClient {
+ *  invocations. Typed with concrete generics so viem's client type does not
+ *  deep-instantiate under the serverless builder's stricter module resolution. */
+export function client(): PublicClient<Transport, Chain> {
   if (!cachedClient) {
     cachedClient = createPublicClient({
       chain: sepolia,
